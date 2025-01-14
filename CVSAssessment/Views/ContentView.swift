@@ -6,8 +6,6 @@
 //
 import SwiftUI
 
-import SwiftUI
-
 struct ContentView: View {
     @State private var searchText: String = ""
     @State private var flickrimages: [FlickrImage] = []
