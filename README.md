@@ -2,13 +2,16 @@
 
 This project is an iOS application developed as part of a coding challenge. The application allows users to search for images on Flickr using a search bar and view image details upon selection. The app is built using Swift and SwiftUI, following a modular architecture for scalability and reusability.
 
-Splash Screen:
+### Splash Screen:
+
 <img width="565" alt="Screenshot 2025-01-14 at 12 19 35 PM" src="https://github.com/user-attachments/assets/4d921690-98f7-478c-9183-684e98a2adee" />
 
-Search Screen:
+### Search Screen:
+
 <img width="565" alt="Screenshot 2025-01-14 at 11 51 35 AM" src="https://github.com/user-attachments/assets/1556868a-5995-41db-8f32-31fa95e13155" />
 
-Detail View Screen:
+### Detail View Screen:
+
 <img width="565" alt="Screenshot 2025-01-14 at 11 51 46 AM" src="https://github.com/user-attachments/assets/b1e5edae-3c35-444c-b387-3bb298a00478" />
 
 ### Challenge Requirements
