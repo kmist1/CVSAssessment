@@ -7,6 +7,55 @@
 
 import SwiftUI
 
+
+//MARK: ImageDetailsView
+/// Main ImageDetailsView using reusable components.
+struct ImageDetailsView: View {
+    let flickrImage: FlickrImage
+    let animationNamespace: Namespace.ID
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                // Image view
+                ImageView(
+                    imageURL: flickrImage.media.mediaURL,
+                    title: flickrImage.title,
+                    author: flickrImage.parsedAuthor,
+                    animationNamespace: animationNamespace,
+                    link: flickrImage.link
+                )
+
+                // Metadata view
+                MetadataView(flickrImage: flickrImage, isCompact: horizontalSizeClass == .compact)
+
+                // Dimensions view
+                DimensionsView(width: flickrImage.dimensions.width, height: flickrImage.dimensions.height)
+
+                Spacer()
+
+                // Share image view
+                ShareImageView(shareContent: createShareContent())
+            }
+            .padding()
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .accessibilityElement(children: .contain)
+    }
+
+    private func createShareContent() -> String {
+        """
+        Title: \(flickrImage.title)
+        Author: \(flickrImage.parsedAuthor)
+        Published: \(flickrImage.formattedPublishedDate)
+        Description: \(flickrImage.parsedDescription)
+        Image: \(flickrImage.media.mediaURL)
+        """
+    }
+}
+
+// MARK: ImageView
 /// A reusable view for displaying an image with animation and accessibility support.
 struct ImageView: View {
     let imageURL: String
@@ -30,6 +79,7 @@ struct ImageView: View {
     }
 }
 
+// MARK: MetadataView
 /// A reusable view for displaying metadata (title, author, description, published date).
 struct MetadataView: View {
     let flickrImage: FlickrImage
@@ -92,6 +142,7 @@ struct MetadataView: View {
     }
 }
 
+// MARK: Dimention View
 /// A reusable view for displaying dimensions of the image.
 struct DimensionsView: View {
     let width: Int?
@@ -114,6 +165,7 @@ struct DimensionsView: View {
     }
 }
 
+// MARK: ShareImageView
 /// A reusable view for sharing image details.
 struct ShareImageView: View {
     let shareContent: String
@@ -126,52 +178,6 @@ struct ShareImageView: View {
         .frame(maxWidth: .infinity, alignment: .center)
         .accessibilityLabel("Share Image")
         .accessibilityHint("Shares the image and its details")
-    }
-}
-
-/// Main ImageDetailsView using reusable components.
-struct ImageDetailsView: View {
-    let flickrImage: FlickrImage
-    let animationNamespace: Namespace.ID
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
-
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                // Image view
-                ImageView(
-                    imageURL: flickrImage.media.mediaURL,
-                    title: flickrImage.title,
-                    author: flickrImage.parsedAuthor,
-                    animationNamespace: animationNamespace,
-                    link: flickrImage.link
-                )
-
-                // Metadata view
-                MetadataView(flickrImage: flickrImage, isCompact: horizontalSizeClass == .compact)
-
-                // Dimensions view
-                DimensionsView(width: flickrImage.dimensions.width, height: flickrImage.dimensions.height)
-
-                Spacer()
-
-                // Share image view
-                ShareImageView(shareContent: createShareContent())
-            }
-            .padding()
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .accessibilityElement(children: .contain)
-    }
-
-    private func createShareContent() -> String {
-        """
-        Title: \(flickrImage.title)
-        Author: \(flickrImage.parsedAuthor)
-        Published: \(flickrImage.formattedPublishedDate)
-        Description: \(flickrImage.parsedDescription)
-        Image: \(flickrImage.media.mediaURL)
-        """
     }
 }
 
