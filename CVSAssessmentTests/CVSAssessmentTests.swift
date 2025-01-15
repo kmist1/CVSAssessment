@@ -44,7 +44,7 @@ final class CVSAssessmentTests: XCTestCase {
     
     
     func testFormattedPublishedDate() {
-        XCTAssertEqual(flickrImage?.formattedPublishedDate, "Jan 5, 2025 at 11:04 PM", "Published date should be formatted correctly.")
+        XCTAssertEqual(flickrImage?.formattedPublishedDate, "Jan 5, 2025 at 11:04 pm", "Published date should be formatted correctly.")
     }
     
     func testSuccessfulResponse() async throws {
