@@ -4,6 +4,7 @@
 //
 //  Created by krunal mistry on 1/14/25.
 //
+
 import SwiftUI
 
 // Represent Search View Screen
@@ -16,6 +17,9 @@ struct ContentView: View {
     @State private var currentTask: Task<Void, Never>?
     @State private var debounceTimer: Timer?
     @State private var hasFetchedImages: Bool = false
+    @State private var showErrorAlert: Bool = false
+    @State private var errorMessage: String = ""
+
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Namespace private var namespace
 
@@ -49,6 +53,13 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Flickr Images")
+            .alert(isPresented: $showErrorAlert) {
+                Alert(
+                    title: Text("Error"),
+                    message: Text(errorMessage),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -89,6 +100,10 @@ struct ContentView: View {
                 }
             } catch {
                 if Task.isCancelled { return }
+                await MainActor.run {
+                    showErrorAlert = true
+                    errorMessage = "Failed to load images. Please try again later."
+                }
                 print("Error: \(error)")
             }
         }
