@@ -6,7 +6,10 @@
 //
 import SwiftUI
 
+// Represent Search View Screen
 struct ContentView: View {
+
+    // MARK: Private properties
     @State private var searchText: String = ""
     @State private var flickrimages: [FlickrImage] = []
     @State private var isLoading: Bool = true
@@ -23,6 +26,7 @@ struct ContentView: View {
         : Array(repeating: GridItem(.flexible(), spacing: 10), count: 5)
     }
 
+    // MARK: Body
     var body: some View {
         NavigationView {
             VStack {
@@ -50,6 +54,11 @@ struct ContentView: View {
     }
 
     // MARK: - Methods
+
+    /// Debounces the search query to avoid making API calls on every keystroke.
+    /// - Parameter query: The search query string entered by the user.
+    /// - Discussion: This method resets the timer on every new keystroke and triggers the `fetchImages(query:)` method
+    /// after a 0.5-second delay if no further keystrokes occur. It helps optimize network calls.
     func debounceSearch(query: String) {
         debounceTimer?.invalidate()
         debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
@@ -57,6 +66,12 @@ struct ContentView: View {
         }
     }
 
+    /// Fetches images from the Flickr API based on the provided search query.
+    /// - Parameter query: The search query string entered by the user. If empty, a default query is used.
+    /// - Discussion: This method cancels any ongoing task, updates the loading state, and asynchronously
+    /// fetches images from the Flickr API. The results are assigned to `flickrimages`, and the loading state is updated.
+    /// Errors are handled gracefully, and API calls are performed off the main thread.
+    /// - Note: Uses async/await for API calls and ensures UI updates are performed on the main thread.
     func fetchImages(query: String) {
         currentTask?.cancel()
         isLoading = true
@@ -83,4 +98,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-
