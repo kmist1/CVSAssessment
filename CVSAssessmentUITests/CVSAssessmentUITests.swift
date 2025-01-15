@@ -17,10 +17,12 @@ final class CVSAssessmentUITests: XCTestCase {
     }
     
     func testSearchBarStaysAtTopDuringLoading() throws {
-        
+
         let searchBar = app.textFields["Search Images"]
-        XCTAssertTrue(searchBar.exists, "Search bar should exist")
-    
+
+        let exists = searchBar.waitForExistence(timeout: 20) // Increase timeout as needed
+        XCTAssertTrue(exists, "Search bar should exist")
+
         let searchBarFrameBeforeLoading = searchBar.frame
         
         searchBar.tap()
@@ -36,7 +38,8 @@ final class CVSAssessmentUITests: XCTestCase {
     
     func testImageGridAppearsAfterLoading() throws {
         let searchBar = app.textFields["Search Images"]
-        XCTAssertTrue(searchBar.exists, "Search bar should exist")
+        let searchExists = searchBar.waitForExistence(timeout: 20) // Increase timeout as needed
+        XCTAssertTrue(searchExists, "Search bar should exist")
         searchBar.tap()
         searchBar.typeText("kittens")
         let gridCell = app.images.element(boundBy: 0)
